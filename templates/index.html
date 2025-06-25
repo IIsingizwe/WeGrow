@@ -1,0 +1,63 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WeGrow - Child Nutrition Tracker</title>
+  <style>
+    body {
+      background-color: #e6f4ea; /* light green-blue background */
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 60px auto;
+      background-color: #ffffffcc;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #007b5f; /* dark green */
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #333;
+      font-size: 18px;
+    }
+
+    .message {
+      background-color: #d1f5d3; /* soft green */
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 12px;
+      color: #1d4b26;
+      font-weight: bold;
+    }
+
+    .child-image {
+      margin-top: 20px;
+      width: 120px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to WeGrow</h1>
+    <p>Track and support your child's growth and nutrition progress.</p>
+
+    {% if message %}
+      <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <img class="child-image" src="https://i.imgur.com/jXb2b3D.png" alt="Happy Child Drawing" />
+  </div>
+</body>
+</html>
