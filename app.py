@@ -1,12 +1,15 @@
 import os
 import csv
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = 'wegrow-secret-key'
 
 CHILD_FILE = 'data/children.csv'
 HOSPITAL_FILE = 'data/hospital_children.csv'
+
+VALID_USERNAME = "admin"
+VALID_PASSWORD = "password"
 
 def load_children():
     if not os.path.exists(CHILD_FILE):
@@ -25,6 +28,32 @@ def save_child(data):
 def child_exists(child_id, month):
     children = load_children()
     return any(c['ChildID'] == child_id and c['Month'] == month for c in children)
+
+@app.route('/home')
+def home():
+    if 'logged_in' in session:
+        return f"Welcome, {session['username']}!"
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    message = ''
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if not username or not password:
+            message = 'Both username and password are required.'
+        elif username == VALID_USERNAME and password == VALID_PASSWORD:
+            session['logged_in'] = True
+            session['username'] = username
+            return redirect(url_for('home'))
+        else:
+            message = 'Invalid username or password. Please try again.'
+
+    return render_template('login.html', message=message)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -112,46 +141,3 @@ def toggle_status(child_id, month):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
-    from flask import Flask, render_template, request, redirect, url_for, session
-
-app = Flask(__name__)
-app.secret_key = 'wegrow-secret-key'  # Set a secret key for session management
-
-# Sample hardcoded credentials (for demonstration purposes)
-VALID_USERNAME = "admin"
-VALID_PASSWORD = "password"
-
-# Route for the login page
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    message = ''  # Initialize message variable to show messages to user
-
-    if request.method == 'POST':
-        # Get username and password from form
-        username = request.form['username']
-        password = request.form['password']
-
-        # Validate the username and password
-        if not username or not password:
-            message = 'Both username and password are required.'
-        elif username == VALID_USERNAME and password == VALID_PASSWORD:
-            # Successful login: Store session info and redirect
-            session['logged_in'] = True
-            session['username'] = username
-            return redirect(url_for('home'))  # Redirect to home page after successful login
-        else:
-            message = 'Invalid username or password. Please try again.'
-
-    # If it's GET request, render the login page with any message (if there is any)
-    return render_template('login.html', message=message)  # Make sure to pass the message to the template
-
-# Route for the home page (after login)
-@app.route('/home')
-def home():
-    if 'logged_in' in session:
-        return f"Welcome, {session['username']}!"  # Display a welcome message
-    else:
-        return redirect(url_for('login'))  # If not logged in, redirect to login page
-
-if __name__ == '__main__':
-    app.run(debug=True)
