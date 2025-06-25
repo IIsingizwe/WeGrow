@@ -15,7 +15,10 @@
 
     .container {
       max-width: 700px;
-      margin: 60px auto;
+      margin-bottom: 15px;
+      margin-left: 15px;
+      margin-right: 15
+      margin-top: auto;
       background-color: #ffffffcc;
       border-radius: 20px;
       padding: 40px;
@@ -59,7 +62,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Admin Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -74,7 +77,7 @@
             background-color: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
             width: 300px;
         }
         .login-container h2 {
@@ -84,7 +87,8 @@
         .login-container input {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin-left: 10px;
+            margin-right 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
@@ -112,7 +116,7 @@
         
         <!-- Display any error messages if authentication fails -->
         {% if message %}
-            <div class="error-message">{{ message }}</div>
+            <div class="error-message">{{ Ntabwo mwanditse muri sisitemu }}</div>
         {% endif %}
 
         <form method="POST" action="/login">
