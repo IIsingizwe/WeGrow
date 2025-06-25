@@ -112,3 +112,46 @@ def toggle_status(child_id, month):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    from flask import Flask, render_template, request, redirect, url_for, session
+
+app = Flask(__name__)
+app.secret_key = 'wegrow-secret-key'  # Set a secret key for session management
+
+# Sample hardcoded credentials (for demonstration purposes)
+VALID_USERNAME = "admin"
+VALID_PASSWORD = "password"
+
+# Route for the login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    message = ''  # Initialize message variable to show messages to user
+
+    if request.method == 'POST':
+        # Get username and password from form
+        username = request.form['username']
+        password = request.form['password']
+
+        # Validate the username and password
+        if not username or not password:
+            message = 'Both username and password are required.'
+        elif username == VALID_USERNAME and password == VALID_PASSWORD:
+            # Successful login: Store session info and redirect
+            session['logged_in'] = True
+            session['username'] = username
+            return redirect(url_for('home'))  # Redirect to home page after successful login
+        else:
+            message = 'Invalid username or password. Please try again.'
+
+    # If it's GET request, render the login page with any message (if there is any)
+    return render_template('login.html', message=message)  # Make sure to pass the message to the template
+
+# Route for the home page (after login)
+@app.route('/home')
+def home():
+    if 'logged_in' in session:
+        return f"Welcome, {session['username']}!"  # Display a welcome message
+    else:
+        return redirect(url_for('login'))  # If not logged in, redirect to login page
+
+if __name__ == '__main__':
+    app.run(debug=True)
