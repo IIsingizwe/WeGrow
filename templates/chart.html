@@ -1,1 +1,97 @@
-<!-- chart.html placeholder -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Children Statistics - Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!-- Import Chart.js library -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 20px 0;
+        }
+        .back-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #007b5f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #005f47;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Children Statistics - Chart</h1>
+
+        <!-- Chart Container -->
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <!-- Back Button -->
+        <div class="back-button">
+            <a href="/records">
+                <button class="btn">Back to Records</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data for the chart (replace with your actual data from Flask)
+        const data = {
+            labels: ["January", "February", "March", "April", "May", "June"],  // Months or categories
+            datasets: [{
+                label: 'Children Growth Status',
+                data: [5, 10, 8, 12, 6, 9],  // Replace with actual data (like number of children with 'stunted' status)
+                backgroundColor: 'rgba(0, 123, 95, 0.2)',
+                borderColor: 'rgba(0, 123, 95, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Chart configuration
+        const config = {
+            type: 'bar',  // Bar chart type (can be 'line', 'pie', etc.)
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        // Create the chart in the canvas element
+        const myChart = new Chart(document.getElementById('myChart'), config);
+    </script>
+</body>
+</html>
