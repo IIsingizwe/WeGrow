@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Children Records</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #e6f4ea;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .container {
+            max-width: 1330px;
+            margin: 1cm auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 25px;
+            height: auto;
+        }
+        h1 {
+            background-color: #d6eaff;
+            color: #007b5f;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .btn {
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        .btn-blue {
+            background-color: #007b5f;
+            color: white;
+        }
+        .btn-blue:hover {
+            background-color: #005f47;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        .btn-skyblue {
+            background-color: #87CEEB;
+            color: white;
+        }
+        .btn-skyblue:hover {
+            background-color: #4682B4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            max-height: 400px;
+            overflow-y: auto;
+            display: block;
+        }
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+        table td {
+            border-bottom: 1px solid #e6f4ea;
+        }
+        .row-select {
+            cursor: pointer;
+            background-color: #f0f8f0;
+        }
+        .selected {
+            background-color: #b2d8b2;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        #search-id {
+            border-radius: 20px;
+            width: 240px;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #b3e0ff;
+            background-color: #b3e0ff;
+        }
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .add-child-btn {
+            background-color: #007b5f;
+            color: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+        .add-child-btn:hover {
+            background-color: #005f47;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        table td,
+        table th {
+            height: 50px;
+        }
+        .child-id-col {
+            width: 110px;
+        }
+        .name-col {
+            width: 200px;
+        }
+        .father-name-col, .mother-name-col, .hh-head-id-col {
+            width: 160px;
+        }
+        .search-caption {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .search-btn-caption {
+            font-weight: bold;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+        table {
+            border: none;
+        }
+        #chart-container {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registered Children</h1>
+
+        <div class="search-container">
+            <div class="search-bar">
+                <label for="search-id" class="search-caption mr-2">SEARCH CHILD ID:</label>
+                <input type="text" id="search-id" class="form-control" placeholder="Enter Child ID">
+            </div>
+            <a href="/add-child" class="btn add-child-btn">Add New Child</a>
+        </div>
+
+        <table class="table" id="children-table">
+            <thead>
+                <tr>
+                    <th class="child-id-col">Child ID</th>
+                    <th class="name-col">Name</th>
+                    <th class="father-name-col">Father Name</th>
+                    <th class="mother-name-col">Mother Name</th>
+                    <th class="hh-head-id-col">HH Head ID</th>
+                    <th>District</th>
+                    <th>Birthdate</th>
+                    <th>Month</th>
+                    <th>Height</th>
+                    <th>Weight</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row-select" data-id="001">
+                    <td><input type="text" value="001" class="form-control" /></td>
+                    <td>John Doe</td>
+                    <td>Michael Doe</td>
+                    <td>Jane Doe</td>
+                    <td>HH123</td>
+                    <td>Kigali</td>
+                    <td>2022-01-01</td>
+                    <td>January</td>
+                    <td>80cm</td>
+                    <td>10kg</td>
+                    <td>Stunted</td>
+                </tr>
+                <tr class="row-select" data-id="002">
+                    <td><input type="text" value="002" class="form-control" /></td>
+                    <td>Jane Smith</td>
+                    <td>John Smith</td>
+                    <td>Mary Smith</td>
+                    <td>HH124</td>
+                    <td>Musanze</td>
+                    <td>2021-08-15</td>
+                    <td>August</td>
+                    <td>85cm</td>
+                    <td>12kg</td>
+                    <td>Not Stunted</td>
+                </tr>
+                <tr class="row-select" data-id="003">
+                    <td><input type="text" value="003" class="form-control" /></td>
+                    <td>Michael Johnson</td>
+                    <td>David Johnson</td>
+                    <td>Linda Johnson</td>
+                    <td>HH125</td>
+                    <td>Rubavu</td>
+                    <td>2020-03-20</td>
+                    <td>March</td>
+                    <td>90cm</td>
+                    <td>15kg</td>
+                    <td>Stunted</td>
+                </tr>
+                <tr class="row-select" data-id="004">
+                    <td><input type="text" value="004" class="form-control" /></td>
+                    <td>Sarah Williams</td>
+                    <td>Paul Williams</td>
+                    <td>Rachel Williams</td>
+                    <td>HH126</td>
+                    <td>Nyanza</td>
+                    <td>2021-07-25</td>
+                    <td>July</td>
+                    <td>88cm</td>
+                    <td>13kg</td>
+                    <td>Not Stunted</td>
+                </tr>
+                <tr class="row-select" data-id="005">
+                    <td><input type="text" value="005" class="form-control" /></td>
+                    <td>David Brown</td>
+                    <td>John Brown</td>
+                    <td>Alice Brown</td>
+                    <td>HH127</td>
+                    <td>Huye</td>
+                    <td>2019-11-10</td>
+                    <td>November</td>
+                    <td>95cm</td>
+                    <td>18kg</td>
+                    <td>Stunted</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="chart-container">
+            <h3>Chart for Selected Child</h3>
+            <div id="chart"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-blue" id="toggle-status-btn">Toggle Status</button>
+            <button class="btn btn-blue" id="toggle-hide-btn">Toggle Hide</button>
+            <button class="btn btn-danger" id="delete-child-btn">Delete Child</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedChildId = null;
+
+        document.querySelectorAll('.row-select').forEach(row => {
+            row.addEventListener('click', function () {
+                document.querySelectorAll('.row-select').forEach(r => r.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedChildId = this.getAttribute('data-id');
+                showChartForChild(selectedChildId);
+            });
+        });
+
+        function showChartForChild(childId) {
+            let chartContainer = document.getElementById('chart-container');
+            chartContainer.style.display = 'block';
+
+            let chartElement = document.getElementById('chart');
+            chartElement.innerHTML = `<p>Chart data for Child ID: ${childId}</p>`;
+        }
+    </script>
+</body>
+</html>
