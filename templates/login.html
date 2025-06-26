@@ -53,12 +53,9 @@
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        
-        <!-- Display any error messages if authentication fails -->
         {% if message %}
             <div class="error-message">{{ message }}</div>
         {% endif %}
-
         <form method="POST" action="/login">
             <input type="text" name="username" placeholder="Username" required><br>
             <input type="password" name="password" placeholder="Password" required><br>
