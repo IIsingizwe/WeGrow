@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Children Records</title>
+    <title>WeGrow - Children Records</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             background-color: #e6f4ea;
-            margin-top: 0;
-            margin-bottom: 0;
         }
         .container {
             max-width: 1330px;
@@ -18,7 +16,6 @@
             background-color: white;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
             border-radius: 25px;
-            height: auto;
         }
         h1 {
             background-color: #d6eaff;
@@ -28,37 +25,9 @@
             margin-bottom: 20px;
             font-weight: bold;
         }
-        .btn {
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
-        .btn-blue {
-            background-color: #007b5f;
-            color: white;
-        }
-        .btn-blue:hover {
-            background-color: #005f47;
-        }
-        .btn-danger {
-            background-color: #e74c3c;
-            color: white;
-        }
-        .btn-danger:hover {
-            background-color: #c0392b;
-        }
-        .btn-skyblue {
-            background-color: #87CEEB;
-            color: white;
-        }
-        .btn-skyblue:hover {
-            background-color: #4682B4;
-        }
         table {
             width: 100%;
             border-collapse: collapse;
-            max-height: 400px;
-            overflow-y: auto;
-            display: block;
         }
         table th, table td {
             padding: 10px;
@@ -75,89 +44,67 @@
         .selected {
             background-color: #b2d8b2;
         }
-        .search-bar {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        #search-id {
-            border-radius: 20px;
-            width: 240px;
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #b3e0ff;
-            background-color: #b3e0ff;
-        }
-        .search-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .add-child-btn {
-            background-color: #007b5f;
-            color: white;
-            border-radius: 10px;
-            padding: 10px 20px;
-        }
-        .add-child-btn:hover {
-            background-color: #005f47;
-        }
         .action-buttons {
             display: flex;
             gap: 10px;
             margin-top: 20px;
         }
-        table td,
-        table th {
-            height: 50px;
-        }
-        .child-id-col {
-            width: 110px;
-        }
-        .name-col {
-            width: 200px;
-        }
-        .father-name-col, .mother-name-col, .hh-head-id-col {
-            width: 160px;
-        }
-        .search-caption {
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .search-btn-caption {
-            font-weight: bold;
-            text-transform: uppercase;
-            opacity: 0.5;
-        }
-        table {
+        .action-buttons button {
+            background-color: #007b5f;
+            color: white;
             border: none;
+            border-radius: 5px;
         }
-        #chart-container {
-            margin-top: 20px;
-            display: none;
+        .action-buttons button:hover {
+            background-color: #005f47;
+        }
+        .modal-body input {
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid green;
+            margin: 5px 0;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        #search-input {
+            width: 180px;
+            border-radius: 15px;
+            background-color: #add8e6;
+            padding: 8px;
+            margin-right: 10px;
+        }
+        #delete-child-btn {
+            background-color: red;
+        }
+        #delete-child-btn:hover {
+            background-color: darkred;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Registered Children</h1>
 
-        <div class="search-container">
-            <div class="search-bar">
-                <label for="search-id" class="search-caption mr-2">SEARCH CHILD ID:</label>
-                <input type="text" id="search-id" class="form-control" placeholder="Enter Child ID">
-            </div>
-            <a href="/add-child" class="btn add-child-btn">Add New Child</a>
+<div class="container">
+    <h1>Registered Children</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <input class="form-control" id="search-input" type="text" placeholder="Search for children..." onkeyup="searchTable()">
         </div>
+        <div class="col-6 text-right">
+            <button class="btn btn-success" data-toggle="modal" data-target="#addChildModal">Add New Child</button>
+        </div>
+    </div>
 
+    <div class="table-wrapper mt-4">
         <table class="table" id="children-table">
             <thead>
                 <tr>
-                    <th class="child-id-col">Child ID</th>
-                    <th class="name-col">Name</th>
-                    <th class="father-name-col">Father Name</th>
-                    <th class="mother-name-col">Mother Name</th>
-                    <th class="hh-head-id-col">HH Head ID</th>
+                    <th>Child ID</th>
+                    <th>Name</th>
+                    <th>Father Name</th>
+                    <th>Mother Name</th>
+                    <th>HH Head ID</th>
                     <th>District</th>
                     <th>Birthdate</th>
                     <th>Month</th>
@@ -168,7 +115,7 @@
             </thead>
             <tbody>
                 <tr class="row-select" data-id="001">
-                    <td><input type="text" value="001" class="form-control" /></td>
+                    <td>001</td>
                     <td>John Doe</td>
                     <td>Michael Doe</td>
                     <td>Jane Doe</td>
@@ -181,91 +128,193 @@
                     <td>Stunted</td>
                 </tr>
                 <tr class="row-select" data-id="002">
-                    <td><input type="text" value="002" class="form-control" /></td>
+                    <td>002</td>
                     <td>Jane Smith</td>
-                    <td>John Smith</td>
+                    <td>William Smith</td>
                     <td>Mary Smith</td>
                     <td>HH124</td>
-                    <td>Musanze</td>
-                    <td>2021-08-15</td>
-                    <td>August</td>
-                    <td>85cm</td>
-                    <td>12kg</td>
-                    <td>Not Stunted</td>
-                </tr>
-                <tr class="row-select" data-id="003">
-                    <td><input type="text" value="003" class="form-control" /></td>
-                    <td>Michael Johnson</td>
-                    <td>David Johnson</td>
-                    <td>Linda Johnson</td>
-                    <td>HH125</td>
-                    <td>Rubavu</td>
-                    <td>2020-03-20</td>
-                    <td>March</td>
-                    <td>90cm</td>
-                    <td>15kg</td>
-                    <td>Stunted</td>
-                </tr>
-                <tr class="row-select" data-id="004">
-                    <td><input type="text" value="004" class="form-control" /></td>
-                    <td>Sarah Williams</td>
-                    <td>Paul Williams</td>
-                    <td>Rachel Williams</td>
-                    <td>HH126</td>
-                    <td>Nyanza</td>
-                    <td>2021-07-25</td>
-                    <td>July</td>
-                    <td>88cm</td>
-                    <td>13kg</td>
-                    <td>Not Stunted</td>
-                </tr>
-                <tr class="row-select" data-id="005">
-                    <td><input type="text" value="005" class="form-control" /></td>
-                    <td>David Brown</td>
-                    <td>John Brown</td>
-                    <td>Alice Brown</td>
-                    <td>HH127</td>
                     <td>Huye</td>
-                    <td>2019-11-10</td>
-                    <td>November</td>
-                    <td>95cm</td>
-                    <td>18kg</td>
-                    <td>Stunted</td>
+                    <td>2022-02-01</td>
+                    <td>February</td>
+                    <td>85cm</td>
+                    <td>11kg</td>
+                    <td>Not Stunted</td>
                 </tr>
             </tbody>
         </table>
-
-        <div id="chart-container">
-            <h3>Chart for Selected Child</h3>
-            <div id="chart"></div>
-        </div>
-
-        <div class="action-buttons">
-            <button class="btn btn-blue" id="toggle-status-btn">Toggle Status</button>
-            <button class="btn btn-blue" id="toggle-hide-btn">Toggle Hide</button>
-            <button class="btn btn-danger" id="delete-child-btn">Delete Child</button>
-        </div>
     </div>
 
-    <script>
-        let selectedChildId = null;
+    <div class="action-buttons mt-3">
+        <button class="btn btn-dark" id="toggle-status-btn">Toggle Status</button>
+        <button class="btn btn-dark" id="toggle-hide-btn">Toggle Hide</button>
+        <button class="btn btn-danger" id="delete-child-btn">Delete Child</button>
+    </div>
+</div>
 
-        document.querySelectorAll('.row-select').forEach(row => {
-            row.addEventListener('click', function () {
-                document.querySelectorAll('.row-select').forEach(r => r.classList.remove('selected'));
-                this.classList.add('selected');
-                selectedChildId = this.getAttribute('data-id');
-                showChartForChild(selectedChildId);
-            });
+<div class="modal fade" id="addChildModal" tabindex="-1" role="dialog" aria-labelledby="addChildModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addChildModalLabel">Register New Child</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="add-child-form">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="child-id">Child ID:</label>
+                            <input type="text" id="child-id" class="form-control" placeholder="Enter Child ID" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" class="form-control" placeholder="Enter Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="father-name">Father Name:</label>
+                            <input type="text" id="father-name" class="form-control" placeholder="Enter Father's Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="mother-name">Mother Name:</label>
+                            <input type="text" id="mother-name" class="form-control" placeholder="Enter Mother's Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="hh-head-id">HH Head ID:</label>
+                            <input type="text" id="hh-head-id" class="form-control" placeholder="Enter HH Head ID" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="district">District:</label>
+                            <input type="text" id="district" class="form-control" placeholder="Enter District" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="birthdate">Birthdate:</label>
+                            <input type="date" id="birthdate" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="month">Month:</label>
+                            <input type="text" id="month" class="form-control" placeholder="Enter Month" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="height">Height:</label>
+                            <input type="text" id="height" class="form-control" placeholder="Enter Height" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="weight">Weight:</label>
+                            <input type="text" id="weight" class="form-control" placeholder="Enter Weight" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="status">Status:</label>
+                            <select id="status" class="form-control" required>
+                                <option value="Stunted">Stunted</option>
+                                <option value="Not Stunted">Not Stunted</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    function searchTable() {
+        let input = document.getElementById("search-input").value.toLowerCase();
+        let rows = document.querySelector("#children-table tbody").rows;
+        for (let i = 0; i < rows.length; i++) {
+            let row = rows[i];
+            let cells = row.getElementsByTagName("td");
+            let found = false;
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j].textContent.toLowerCase().includes(input)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    }
+
+    $(document).ready(function() {
+        let selectedRow = null;
+        $(".row-select").on("click", function() {
+            if (selectedRow) {
+                selectedRow.removeClass("selected");
+            }
+            selectedRow = $(this);
+            selectedRow.addClass("selected");
         });
 
-        function showChartForChild(childId) {
-            let chartContainer = document.getElementById('chart-container');
-            chartContainer.style.display = 'block';
+        $('#toggle-status-btn').on('click', function() {
+            if (selectedRow) {
+                let statusCell = selectedRow.find('td:eq(10)');
+                let currentStatus = statusCell.text();
+                statusCell.text(currentStatus === 'Stunted' ? 'Not Stunted' : 'Stunted');
+            }
+        });
 
-            let chartElement = document.getElementById('chart');
-            chartElement.innerHTML = `<p>Chart data for Child ID: ${childId}</p>`;
-        }
-    </script>
+        $('#toggle-hide-btn').on('click', function() {
+            if (selectedRow) {
+                selectedRow.toggleClass('hidden');
+            }
+        });
+
+        $('#delete-child-btn').on('click', function() {
+            if (selectedRow) {
+                selectedRow.remove();
+                selectedRow = null;
+            }
+        });
+
+        $('#add-child-form').on('submit', function(e) {
+            e.preventDefault();
+
+            let newRowData = {
+                childId: $('#child-id').val(),
+                name: $('#name').val(),
+                fatherName: $('#father-name').val(),
+                motherName: $('#mother-name').val(),
+                hhHeadId: $('#hh-head-id').val(),
+                district: $('#district').val(),
+                birthdate: $('#birthdate').val(),
+                month: $('#month').val(),
+                height: $('#height').val(),
+                weight: $('#weight').val(),
+                status: $('#status').val()
+            };
+
+            let newRow = `<tr class="row-select">
+                            <td>${newRowData.childId}</td>
+                            <td>${newRowData.name}</td>
+                            <td>${newRowData.fatherName}</td>
+                            <td>${newRowData.motherName}</td>
+                            <td>${newRowData.hhHeadId}</td>
+                            <td>${newRowData.district}</td>
+                            <td>${newRowData.birthdate}</td>
+                            <td>${newRowData.month}</td>
+                            <td>${newRowData.height}</td>
+                            <td>${newRowData.weight}</td>
+                            <td>${newRowData.status}</td>
+                        </tr>`;
+
+            $('#children-table tbody').append(newRow);
+            $('#addChildModal').modal('hide');
+            $('#add-child-form')[0].reset();
+        });
+    });
+</script>
+
 </body>
 </html>
