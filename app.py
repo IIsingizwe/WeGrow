@@ -1,51 +1,31 @@
 import os
-import csv
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = 'wegrow-secret-key'
 
-VALID_USERNAME = "admin"
-VALID_PASSWORD = "password"
-
-CHILD_FILE = 'data/children.csv'
-
-def load_children():
-    if not os.path.exists(CHILD_FILE):
-        return []
-    with open(CHILD_FILE, newline='') as csvfile:
-        return list(csv.DictReader(csvfile))
+@app.route('/')
+def welcome():
+    return render_template('welcome.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    message = ''
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if not username or not password:
-            message = 'Both username and password are required.'
-        elif username == VALID_USERNAME and password == VALID_PASSWORD:
-            session['logged_in'] = True
-            session['username'] = username
+        if username == 'admin' and password == 'admin':
             return redirect(url_for('children'))
         else:
-            message = 'Invalid username or password. Please try again.'
-    return render_template('login.html', message=message)
+            return render_template('login.html', message="Invalid credentials")
+    return render_template('login.html')
 
 @app.route('/children')
 def children():
-    if 'logged_in' in session:
-        children_data = load_children()
-        return render_template('children.html', children=children_data, username=session['username'])
-    else:
-        return redirect(url_for('login'))
+    return render_template('children.html')
 
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    session.pop('username', None)
-    return redirect(url_for('login'))
+@app.route('/add-child', methods=['POST'])
+def add_child():
+    return redirect(url_for('children'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
-
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
